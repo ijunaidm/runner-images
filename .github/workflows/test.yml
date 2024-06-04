@@ -16,7 +16,7 @@ jobs:
     - name: Check Apache and Nginx Services
       shell: powershell
       run: |
-        if ((Get-Service -Name 'Apache2.4') -and (Get-Service -Name 'Apache2.4').Status -eq 'Running') {
+        if ((Get-Service -Name 'Apache2.4.55') -and (Get-Service -Name 'Apache2.4.55').Status -eq 'Running') {
           Write-Output "Apache is running."
         } else {
           Write-Output "Apache is not running."
