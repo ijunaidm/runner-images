@@ -1,29 +1,20 @@
-name: Check Apache and Nginx Ports
+name: Add ARM64 Architecture
 on: [push, pull_request]
 
 jobs:
-  check-ports:
-    runs-on: windows-2019
+  build:
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
-    - name: Run netstat command
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Add ARM64 Architecture
       run: |
-        netstat -ano | findstr :80
-        netstat -ano | findstr :443
-
-    - name: Check Apache and Nginx Services
-      shell: powershell
-      run: |
-        if ((Get-Service -Name 'Apache2.4.55') -and (Get-Service -Name 'Apache2.4.55').Status -eq 'Running') {
-          Write-Output "Apache is running."
-        } else {
-          Write-Output "Apache is not running."
-        }
-
-        if ((Get-Service -Name 'nginx') -and (Get-Service -Name 'nginx').Status -eq 'Running') {
-          Write-Output "Nginx is running."
-        } else {
-          Write-Output "Nginx is not running."
-        }
+        sudo dpkg --add-architecture arm64
+        sudo apt-get update
