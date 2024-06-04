@@ -1,28 +1,29 @@
-name: Test sg
-on:
-  push:
-    branches:
-      - 'main'
+name: Check Apache and Nginx Ports
+on: [push, pull_request]
+
 jobs:
-  run:
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        runner:
-          - ubuntu-20.04
-          - ubuntu-22.04
-          - ubuntu-24.04
+  check-ports:
+    runs-on: ubuntu-latest
     steps:
-      - run: whoami
-      - run: groups
-      - run: sudo groupadd --force --system lxd
-      - run: sudo usermod --append --groups lxd runner
-      - run: groups
-      - run: sudo -u runner groups
-      - run: sudo -u runner lxd
-        if: always()
-      - run: groups
-        if: always()
-      - run: sudo -u runner lxd -c groups
-        if: always()
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Run netstat command
+      run: |
+        sudo apt-get install -y net-tools
+        netstat -ano | grep ':80 '
+        netstat -ano | grep ':443 '
+
+    - name: Check Apache and Nginx Services
+      run: |
+        if systemctl is-active --quiet apache2; then
+          echo "Apache is running."
+        else
+          echo "Apache is not running."
+        fi
+
+        if systemctl is-active --quiet nginx; then
+          echo "Nginx is running."
+        else
+          echo "Nginx is not running."
+        fi
