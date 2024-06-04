@@ -16,5 +16,5 @@ jobs:
 
     - name: Add ARM64 Architecture
       run: |
-        sudo dpkg --add-architecture arm64
+        sudo dpkg --add-architecture i386
         sudo apt-get update
