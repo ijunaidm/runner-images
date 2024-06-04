@@ -3,27 +3,27 @@ on: [push, pull_request]
 
 jobs:
   check-ports:
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
     - name: Run netstat command
       run: |
-        sudo apt-get install -y net-tools
-        netstat -ano | grep ':80 '
-        netstat -ano | grep ':443 '
+        netstat -ano | findstr :80
+        netstat -ano | findstr :443
 
     - name: Check Apache and Nginx Services
+      shell: powershell
       run: |
-        if systemctl is-active --quiet apache2; then
-          echo "Apache is running."
-        else
-          echo "Apache is not running."
-        fi
+        if ((Get-Service -Name 'Apache2.4') -and (Get-Service -Name 'Apache2.4').Status -eq 'Running') {
+          Write-Output "Apache is running."
+        } else {
+          Write-Output "Apache is not running."
+        }
 
-        if systemctl is-active --quiet nginx; then
-          echo "Nginx is running."
-        else
-          echo "Nginx is not running."
-        fi
+        if ((Get-Service -Name 'nginx') -and (Get-Service -Name 'nginx').Status -eq 'Running') {
+          Write-Output "Nginx is running."
+        } else {
+          Write-Output "Nginx is not running."
+        }
