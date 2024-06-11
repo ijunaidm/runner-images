@@ -434,7 +434,6 @@
                 "args": [ "--version", "5.32.1.1" ]
             },
             { "name": "pulumi" },
-            { "name": "tortoisesvn" },
             { "name": "swig" },
             { "name": "vswhere" },
             {
@@ -469,10 +468,10 @@
         "version": "8.3"
     },
     "llvm": {
-        "version": "16"
+        "version": "18"
     },
     "postgresql": {
-        "version": "14",
+        "version": "14.12.1",
         "signature": "698BA51AA27CC31282AACA5055E4B9190BC6C0E9"
     },
     "kotlin": {
