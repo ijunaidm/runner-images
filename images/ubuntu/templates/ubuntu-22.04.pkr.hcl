@@ -1,6 +1,6 @@
 packer {
   required_plugins {
-    azure = {
+    azure-arm = {
       source  = "github.com/hashicorp/azure"
       version = "1.6.6"
     }
