@@ -19,6 +19,7 @@ jobs:
       image_type: 'ubuntu2204'
     secrets: inherit
 
+
 stages:
 - stage: MyStage
   jobs:
